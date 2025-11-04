@@ -11,7 +11,7 @@ const Sidebar = ({ onLogout }) => {
   ];
 
   return (
-    <div className="w-64 bg-white border-r border-gray-200 h-screen fixed left-0 top-0 flex flex-col font-display">
+    <div className="w-64 bg-white border-r border-gray-200 h-screen fixed left-0 top-0 flex flex-col ">
       {/* Logo/Brand - Same height as Header (h-16) */}
       <div className="h-16 border-b border-gray-200 flex items-center px-6">
         <div className="flex items-center space-x-3">

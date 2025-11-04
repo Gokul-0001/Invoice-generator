@@ -113,7 +113,7 @@ const CreateInvoice = () => {
 
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8 ">
       <div className="mb-6">
         <h1 className="text-3xl font-medium text-gray-900 mb-2">Create Invoice</h1>
         <p className="text-gray-600">Create professional invoices with customizable templates</p>

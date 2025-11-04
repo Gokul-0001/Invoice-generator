@@ -255,7 +255,7 @@ const InvoiceList = () => {
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
       <div className="p-6 border-b bg-gradient-to-r from-blue-50 to-purple-50">
-        <h2 className="text-2xl font-bold text-gray-900">All Invoices</h2>
+        <h2 className="text-2xl font-medium text-gray-900">All Invoices</h2>
         <p className="text-gray-600 mt-1">Manage and view your invoices</p>
       </div>
 
