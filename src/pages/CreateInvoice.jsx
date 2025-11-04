@@ -6,11 +6,13 @@ import InvoiceForm from '../components/InvoiceForm';
 import InvoicePreview from '../components/InvoicePreview';
 import { useInvoice } from '../context/InvoiceContext';
 
+
 const CreateInvoice = () => {
   const { createInvoice, selectedTemplate, setSelectedTemplate } = useInvoice();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('edit');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+
 
   // Default sample data for preview
   const defaultInvoiceData = {
@@ -43,15 +45,19 @@ const CreateInvoice = () => {
     template: selectedTemplate,
   };
 
+
   const [formData, setFormData] = useState(defaultInvoiceData);
+
 
   useEffect(() => {
     setFormData(prev => ({ ...prev, template: selectedTemplate }));
   }, [selectedTemplate]);
 
+
   const handleFormChange = (data) => {
     setFormData({ ...data, template: selectedTemplate });
   };
+
 
   const handleSaveClick = () => {
     if (!formData) {
@@ -68,6 +74,7 @@ const CreateInvoice = () => {
     }
     setShowConfirmModal(true);
   };
+
 
   const handleConfirmSave = () => {
     const newInvoice = createInvoice({ ...formData, template: selectedTemplate });
@@ -87,20 +94,23 @@ const CreateInvoice = () => {
     }, 1000);
   };
 
+
   const handleCancelSave = () => {
     setShowConfirmModal(false);
   };
 
+
   const getTemplateColor = () => {
     const colors = {
-      modern: 'bg-blue-500',
+      modern: 'bg-purple-500',
       classic: 'bg-gray-800',
       minimal: 'bg-gray-500',
       bold: 'bg-orange-500',
       elegant: 'bg-purple-500',
     };
-    return colors[selectedTemplate] || 'bg-blue-500';
+    return colors[selectedTemplate] || 'bg-purple-500';
   };
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -109,13 +119,14 @@ const CreateInvoice = () => {
         <p className="text-gray-600">Create professional invoices with customizable templates</p>
       </div>
 
+
       <div className="mb-6">
         <div className="flex space-x-4 border-b">
           <button
             onClick={() => setActiveTab('edit')}
             className={`px-6 py-3 font-medium transition-colors ${
               activeTab === 'edit'
-                ? 'border-b-2 border-blue-600 text-blue-600'
+                ? 'border-b-2 border-purple-600 text-purple-600'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -125,7 +136,7 @@ const CreateInvoice = () => {
             onClick={() => setActiveTab('preview')}
             className={`px-6 py-3 font-medium transition-colors ${
               activeTab === 'preview'
-                ? 'border-b-2 border-blue-600 text-blue-600'
+                ? 'border-b-2 border-purple-600 text-purple-600'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -133,6 +144,7 @@ const CreateInvoice = () => {
           </button>
         </div>
       </div>
+
 
       {activeTab === 'edit' ? (
         <div className="space-y-6">
@@ -158,6 +170,7 @@ const CreateInvoice = () => {
         />
       )}
 
+
       {/* Confirmation Modal */}
       {showConfirmModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
@@ -170,12 +183,14 @@ const CreateInvoice = () => {
               <X className="w-6 h-6" />
             </button>
 
+
             {/* Icon */}
             <div className="flex justify-center mb-6">
               <div className={`w-16 h-16 ${getTemplateColor()} rounded-full flex items-center justify-center`}>
                 <FileText className="w-8 h-8 text-white" />
               </div>
             </div>
+
 
             {/* Content */}
             <div className="text-center mb-8">
@@ -193,6 +208,7 @@ const CreateInvoice = () => {
               </p>
             </div>
 
+
             {/* Buttons */}
             <div className="flex space-x-3">
               <button
@@ -203,7 +219,7 @@ const CreateInvoice = () => {
               </button>
               <button
                 onClick={handleConfirmSave}
-                className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center space-x-2"
+                className="flex-1 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium flex items-center justify-center space-x-2"
               >
                 <CheckCircle className="w-5 h-5" />
                 <span>Confirm & Save</span>
@@ -212,6 +228,7 @@ const CreateInvoice = () => {
           </div>
         </div>
       )}
+
 
       {/* Animation for modal */}
       <style>{`
@@ -232,5 +249,6 @@ const CreateInvoice = () => {
     </div>
   );
 };
+
 
 export default CreateInvoice;

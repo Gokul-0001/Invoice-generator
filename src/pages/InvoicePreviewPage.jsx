@@ -9,12 +9,15 @@ import MinimalTemplate from '../components/templates/MinimalTemplate';
 import BoldTemplate from '../components/templates/BoldTemplate';
 import ElegantTemplate from '../components/templates/ElegantTemplate';
 
+
 const InvoicePreviewPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { invoices } = useInvoice();
 
+
   const invoice = invoices.find(inv => inv.id === parseInt(id));
+
 
   if (!invoice) {
     return (
@@ -32,6 +35,7 @@ const InvoicePreviewPage = () => {
     );
   }
 
+
   const renderTemplate = () => {
     const templateMap = {
       modern: ModernTemplate,
@@ -41,18 +45,22 @@ const InvoicePreviewPage = () => {
       elegant: ElegantTemplate,
     };
 
+
     const TemplateComponent = templateMap[invoice.template] || ModernTemplate;
     return <TemplateComponent data={invoice} />;
   };
+
 
   const handleDownload = async () => {
     const filename = `Invoice-${invoice.invoiceNumber}.pdf`;
     await generatePDF('invoice-template', filename);
   };
 
+
   const handlePrint = () => {
     printInvoice('invoice-template');
   };
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -66,16 +74,19 @@ const InvoicePreviewPage = () => {
           <span>Back to Invoices</span>
         </button>
 
+
         <div className="flex items-center space-x-4">
           <span className="text-sm text-gray-600">
-            Template: <span className="font-semibold capitalize text-blue-600">{invoice.template}</span>
+            Template: <span className="font-semibold capitalize text-purple-600">{invoice.template}</span>
           </span>
+
 
           {invoice.isPaid && (
             <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
               Paid
             </span>
           )}
+
 
           <button
             onClick={handlePrint}
@@ -85,9 +96,10 @@ const InvoicePreviewPage = () => {
             <span>Print</span>
           </button>
 
+
           <button
             onClick={handleDownload}
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
           >
             <Download className="w-4 h-4" />
             <span>Download PDF</span>
@@ -95,13 +107,16 @@ const InvoicePreviewPage = () => {
         </div>
       </div>
 
+
       {/* Invoice Preview */}
       <div className="bg-white rounded-lg shadow-lg overflow-visible">
         {renderTemplate()}
       </div>
 
+
     </div>
   );
 };
+
 
 export default InvoicePreviewPage;
