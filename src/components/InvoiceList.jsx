@@ -192,13 +192,13 @@ const InvoiceList = () => {
           {!isPaid && (
             <>
               {editingPayment === invoice.id ? (
-                <div className="flex flex-col space-y-2 bg-blue-50 p-3 rounded-lg border-2 border-blue-300 min-w-[200px]">
+                <div className="flex flex-col space-y-2 bg-purple-50 p-3 rounded-lg border-2 border-purple-300 min-w-[200px]">
                   <label className="text-xs font-semibold text-blue-800">Payment Date:</label>
                   <input
                     type="date"
                     value={paymentDate}
                     onChange={(e) => setPaymentDate(e.target.value)}
-                    className="text-sm px-3 py-2 border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="text-sm px-3 py-2 border border-purple-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                   <div className="flex space-x-2">
                     <button
