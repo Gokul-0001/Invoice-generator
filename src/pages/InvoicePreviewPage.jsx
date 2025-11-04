@@ -23,7 +23,7 @@ const InvoicePreviewPage = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow p-12 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Invoice Not Found</h2>
+          <h2 className="text-2xl font-medium text-gray-900 mb-4">Invoice Not Found</h2>
           <button
             onClick={() => navigate('/invoices')}
             className="btn-primary"
@@ -77,7 +77,7 @@ const InvoicePreviewPage = () => {
 
         <div className="flex items-center space-x-4">
           <span className="text-sm text-gray-600">
-            Template: <span className="font-semibold capitalize text-purple-600">{invoice.template}</span>
+            Template: <span className="font-semibold capitalize text-purple-700">{invoice.template}</span>
           </span>
 
 

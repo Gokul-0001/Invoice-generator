@@ -128,7 +128,7 @@ const InvoiceForm = ({ onFormChange, initialData }) => {
 
   return (
     <div className="bg-white rounded-lg shadow p-6 space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Invoice Details</h2>
+      <h2 className="text-2xl font-medium text-gray-900">Invoice Details</h2>
 
       {/* Basic Info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -62,7 +62,7 @@ const InvoicePreview = ({ data, template, onTemplateChange }) => {
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
           <div>
-            <h2 className="text-xl font-bold text-gray-900">Select Template</h2>
+            <h2 className="text-xl font-medium text-gray-900">Select Template</h2>
             <p className="text-sm text-gray-600 mt-1">Choose a design for your invoice</p>
           </div>
           

@@ -115,7 +115,7 @@ const CreateInvoice = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Invoice</h1>
+        <h1 className="text-3xl font-medium text-gray-900 mb-2">Create Invoice</h1>
         <p className="text-gray-600">Create professional invoices with customizable templates</p>
       </div>
 
@@ -126,7 +126,7 @@ const CreateInvoice = () => {
             onClick={() => setActiveTab('edit')}
             className={`px-6 py-3 font-medium transition-colors ${
               activeTab === 'edit'
-                ? 'border-b-2 border-purple-600 text-purple-600'
+                ? 'border-b-2 border-purple-600 text-purple-700'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -136,7 +136,7 @@ const CreateInvoice = () => {
             onClick={() => setActiveTab('preview')}
             className={`px-6 py-3 font-medium transition-colors ${
               activeTab === 'preview'
-                ? 'border-b-2 border-purple-600 text-purple-600'
+                ? 'border-b-2 border-purple-600 text-purple-700'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -194,12 +194,12 @@ const CreateInvoice = () => {
 
             {/* Content */}
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">Confirm Invoice Template</h2>
+              <h2 className="text-2xl font-medium text-gray-900 mb-3">Confirm Invoice Template</h2>
               <p className="text-gray-600 mb-4">
                 You have selected the <span className="font-semibold text-gray-900 capitalize">{selectedTemplate}</span> template for this invoice.
               </p>
               <div className={`inline-flex items-center px-4 py-2 ${getTemplateColor()} bg-opacity-10 rounded-lg border-2 ${getTemplateColor().replace('bg-', 'border-')}`}>
-                <span className={`text-sm font-bold capitalize ${getTemplateColor().replace('bg-', 'text-')}`}>
+                <span className={`text-sm font-medium capitalize ${getTemplateColor().replace('bg-', 'text-')}`}>
                   {selectedTemplate} Template
                 </span>
               </div>

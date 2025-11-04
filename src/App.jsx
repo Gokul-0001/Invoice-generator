@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { InvoiceProvider } from './context/InvoiceContext';
+import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Login from './pages/Login';
 import CreateInvoice from './pages/CreateInvoice';
@@ -12,7 +13,6 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
 
-  // Check if user is already logged in (from localStorage)
   useEffect(() => {
     const storedUser = localStorage.getItem('invoiceUser');
     if (storedUser) {
@@ -33,7 +33,6 @@ function App() {
     localStorage.removeItem('invoiceUser');
   };
 
-  // Protected Route wrapper
   const ProtectedRoute = ({ children }) => {
     return isAuthenticated ? children : <Navigate to="/login" replace />;
   };
@@ -42,7 +41,6 @@ function App() {
     <InvoiceProvider>
       <Router>
         <div className="min-h-screen bg-gray-50">
-          {/* Global Toaster */}
           <Toaster 
             position="top-right"
             reverseOrder={false}
@@ -61,46 +59,50 @@ function App() {
           />
           
           {isAuthenticated ? (
-            // Sidebar Layout for authenticated users
-            <div className="flex">
-              <Sidebar onLogout={handleLogout} />
-              <div className="ml-64 flex-1">
-                <Routes>
-                  {/* Default route always goes to create */}
-                  <Route path="/" element={<Navigate to="/create" replace />} />
-                  <Route path="/login" element={<Navigate to="/create" replace />} />
-                  
-                  <Route
-                    path="/create"
-                    element={
-                      <ProtectedRoute>
-                        <CreateInvoice />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/invoices"
-                    element={
-                      <ProtectedRoute>
-                        <InvoiceListPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/preview/:id"
-                    element={
-                      <ProtectedRoute>
-                        <InvoicePreviewPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  {/* Catch all - redirect to create */}
-                  <Route path="*" element={<Navigate to="/create" replace />} />
-                </Routes>
+            <div className="flex flex-col h-screen">
+              {/* Header at top */}
+              <Header user={user} onLogout={handleLogout} />
+              
+              <div className="flex flex-1 overflow-hidden">
+                {/* Sidebar */}
+                <Sidebar onLogout={handleLogout} />
+                
+                {/* Main content area with top padding for fixed header */}
+                <div className="ml-64 flex-1 overflow-auto pt-16">
+                  <Routes>
+                    <Route path="/" element={<Navigate to="/create" replace />} />
+                    <Route path="/login" element={<Navigate to="/create" replace />} />
+                    
+                    <Route
+                      path="/create"
+                      element={
+                        <ProtectedRoute>
+                          <CreateInvoice />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/invoices"
+                      element={
+                        <ProtectedRoute>
+                          <InvoiceListPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/preview/:id"
+                      element={
+                        <ProtectedRoute>
+                          <InvoicePreviewPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route path="*" element={<Navigate to="/create" replace />} />
+                  </Routes>
+                </div>
               </div>
             </div>
           ) : (
-            // Login page for non-authenticated users
             <Routes>
               <Route path="/login" element={<Login onLogin={handleLogin} />} />
               <Route path="*" element={<Navigate to="/login" replace />} />
