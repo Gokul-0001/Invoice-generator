@@ -18,13 +18,16 @@ const ClassicTemplate = ({ data }) => {
     return `${data.currencySymbol || '$'}${amount.toFixed(2)}`;
   };
 
+  // Show stamp only when paid indicator is 'stamp'
+  const shouldShowStamp = data.isPaid && data.paidIndicator === 'stamp';
+
   return (
     <div 
       id="invoice-template" 
       className="bg-white p-12 max-w-4xl mx-auto shadow-lg print:shadow-none print:p-0 relative overflow-visible"
     >
-      {/* Paid Stamp */}
-      {data.isPaid && <PaidStamp paidDate={data.paidDate} template="classic" />}
+      {/* Paid Stamp - Only for stamp indicator */}
+      {shouldShowStamp && <PaidStamp paidDate={data.paidDate} template="classic" />}
 
       {/* Company Logo */}
       {data.companyLogo && (
@@ -66,7 +69,10 @@ const ClassicTemplate = ({ data }) => {
       {/* Dates */}
       <div className="flex justify-between mb-8 bg-gray-100 p-4">
         <div>
-          <p className="text-sm font-semibold text-gray-700">Invoice Date: <span className="font-normal">{data.invoiceDate}</span></p>
+          <p className="text-sm font-semibold text-gray-700">
+            {data.isPaid && data.paidIndicator === 'text' ? 'Paid Date:' : 'Invoice Date:'} 
+            <span className="font-normal"> {data.isPaid && data.paidIndicator === 'text' ? data.paidDate : data.invoiceDate}</span>
+          </p>
         </div>
         {!data.isPaid && data.dueDate && (
           <div>
@@ -111,9 +117,18 @@ const ClassicTemplate = ({ data }) => {
             <span>{formatCurrency(calculateTax())}</span>
           </div>
           <div className="flex justify-between py-4 bg-gray-800 text-white px-4 mt-2">
-            <span className="text-lg font-bold">TOTAL DUE</span>
+            <span className="text-lg font-bold">
+              {data.isPaid ? 'TOTAL' : 'TOTAL DUE'}
+            </span>
             <span className="text-lg font-bold">{formatCurrency(calculateTotal())}</span>
           </div>
+          {/* Paid Amount - shown for all paid invoices */}
+          {data.isPaid && (
+            <div className="flex justify-between py-3 px-4 bg-green-50 mt-2 border border-green-200">
+              <span className="font-semibold text-green-900">Paid Amount</span>
+              <span className="font-bold text-green-900">{formatCurrency(calculateTotal())}</span>
+            </div>
+          )}
         </div>
       </div>
 

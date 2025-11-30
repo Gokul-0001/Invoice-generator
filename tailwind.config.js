@@ -6,9 +6,6 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        display: ["Manrope", "sans-serif"],
-      }
     }
   }
   ,

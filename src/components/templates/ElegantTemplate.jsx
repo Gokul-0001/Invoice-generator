@@ -18,13 +18,16 @@ const ElegantTemplate = ({ data }) => {
     return `${data.currencySymbol || '$'}${amount.toFixed(2)}`;
   };
 
+  // Show stamp only when paid indicator is 'stamp'
+  const shouldShowStamp = data.isPaid && data.paidIndicator === 'stamp';
+
   return (
     <div 
       id="invoice-template" 
       className="bg-white max-w-4xl mx-auto shadow-lg print:shadow-none relative overflow-visible"
     >
-      {/* Paid Stamp */}
-      {data.isPaid && <PaidStamp paidDate={data.paidDate} template="elegant" />}
+      {/* Paid Stamp - Only for stamp indicator */}
+      {shouldShowStamp && <PaidStamp paidDate={data.paidDate} template="elegant" />}
 
       {/* Header */}
       <div className="bg-gradient-to-br from-purple-600 to-pink-500 text-white p-12">
@@ -33,7 +36,7 @@ const ElegantTemplate = ({ data }) => {
             <img 
               src={data.companyLogo} 
               alt="Company Logo" 
-              className="h-12 w-auto object-contain brightness-0 invert"
+              className="h-12 w-auto object-contain"
             />
           </div>
         )}
@@ -43,10 +46,16 @@ const ElegantTemplate = ({ data }) => {
             <p className="text-lg opacity-90">{data.invoiceNumber}</p>
           </div>
           <div className="text-right">
-            <p className="text-sm opacity-90 mb-1">Invoice Date: {data.invoiceDate}</p>
-            {!data.isPaid && data.dueDate && (
-              <p className="text-sm font-semibold">Payment Due: {data.dueDate}</p>
-            )}
+            {data.isPaid && data.paidIndicator === 'text' ? (
+              <p className="text-sm opacity-90 mb-1">Paid Date: {data.paidDate}</p>
+            ) : !data.isPaid ? (
+              <>
+                <p className="text-sm opacity-90 mb-1">Invoice Date: {data.invoiceDate}</p>
+                {data.dueDate && (
+                  <p className="text-sm font-semibold">Payment Due: {data.dueDate}</p>
+                )}
+              </>
+            ) : null}
           </div>
         </div>
       </div>
@@ -114,9 +123,18 @@ const ElegantTemplate = ({ data }) => {
               <span className="font-semibold text-gray-900">{formatCurrency(calculateTax())}</span>
             </div>
             <div className="flex justify-between py-4 px-6 bg-gradient-to-br from-purple-600 to-pink-500 text-white rounded-lg mt-4">
-              <span className="text-lg font-bold">Total Amount Due</span>
+              <span className="text-lg font-bold">
+                {data.isPaid ? 'Total Amount' : 'Total Amount Due'}
+              </span>
               <span className="text-lg font-bold">{formatCurrency(calculateTotal())}</span>
             </div>
+            {/* Paid Amount - shown for all paid invoices */}
+            {data.isPaid && (
+              <div className="flex justify-between py-3 px-6 bg-green-50 mt-2 rounded border border-green-200">
+                <span className="font-semibold text-green-900">Paid Amount</span>
+                <span className="font-bold text-green-900">{formatCurrency(calculateTotal())}</span>
+              </div>
+            )}
           </div>
         </div>
 

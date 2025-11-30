@@ -18,13 +18,16 @@ const BoldTemplate = ({ data }) => {
     return `${data.currencySymbol || '$'}${amount.toFixed(2)}`;
   };
 
+  // Show stamp only when paid indicator is 'stamp'
+  const shouldShowStamp = data.isPaid && data.paidIndicator === 'stamp';
+
   return (
     <div 
       id="invoice-template" 
       className="bg-white max-w-4xl mx-auto shadow-lg print:shadow-none relative overflow-visible"
     >
-      {/* Paid Stamp */}
-      {data.isPaid && <PaidStamp paidDate={data.paidDate} template="bold" />}
+      {/* Paid Stamp - Only for stamp indicator */}
+      {shouldShowStamp && <PaidStamp paidDate={data.paidDate} template="bold" />}
 
       {/* Header with gradient */}
       <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-12">
@@ -33,7 +36,7 @@ const BoldTemplate = ({ data }) => {
             <img 
               src={data.companyLogo} 
               alt="Company Logo" 
-              className="h-12 w-auto object-contain brightness-0 invert"
+              className="h-12 w-auto object-contain"
             />
           </div>
         )}
@@ -41,10 +44,16 @@ const BoldTemplate = ({ data }) => {
         <div className="flex justify-between items-end">
           <p className="text-2xl font-bold">#{data.invoiceNumber}</p>
           <div className="text-right text-sm">
-            <p className="opacity-90">Issue Date: {data.invoiceDate}</p>
-            {!data.isPaid && data.dueDate && (
-              <p className="font-semibold">Due: {data.dueDate}</p>
-            )}
+            {data.isPaid && data.paidIndicator === 'text' ? (
+              <p className="opacity-90">Paid Date: {data.paidDate}</p>
+            ) : !data.isPaid ? (
+              <>
+                <p className="opacity-90">Invoice Date: {data.invoiceDate}</p>
+                {data.dueDate && (
+                  <p className="font-semibold">Due Date: {data.dueDate}</p>
+                )}
+              </>
+            ) : null}
           </div>
         </div>
       </div>
@@ -106,9 +115,18 @@ const BoldTemplate = ({ data }) => {
               <span className="font-bold">{formatCurrency(calculateTax())}</span>
             </div>
             <div className="flex justify-between py-4 px-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded mt-2">
-              <span className="text-xl font-bold">TOTAL DUE</span>
+              <span className="text-xl font-bold">
+                {data.isPaid ? 'TOTAL' : 'TOTAL DUE'}
+              </span>
               <span className="text-xl font-bold">{formatCurrency(calculateTotal())}</span>
             </div>
+            {/* Paid Amount - shown for all paid invoices */}
+            {data.isPaid && (
+              <div className="flex justify-between py-3 px-4 bg-green-50 mt-2 rounded border border-green-200">
+                <span className="font-semibold text-green-900">Paid Amount</span>
+                <span className="font-bold text-green-900">{formatCurrency(calculateTotal())}</span>
+              </div>
+            )}
           </div>
         </div>
 

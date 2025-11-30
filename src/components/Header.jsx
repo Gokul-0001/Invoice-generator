@@ -42,7 +42,8 @@ const Header = ({ user, onLogout }) => {
   const userEmail = user?.email || 'user@example.com';
 
   return (
-    <header className="fixed top-0 left-64 right-0 bg-white border-b border-gray-200 h-16 flex items-center justify-end px-8 z-30 shadow-sm">
+    // CHANGED: Removed fixed positioning and left-64, using relative positioning
+    <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-end px-8 shadow-sm">
       {/* Right Section - Profile */}
       <div className="relative profile-dropdown-container">
         <button
@@ -77,7 +78,7 @@ const Header = ({ user, onLogout }) => {
 
         {/* Dropdown Menu */}
         {showProfileMenu && (
-          <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden z-40">
+          <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden z-50">
             {/* Profile Header */}
             <div className="px-4 py-4 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-gray-200">
               <div className="flex items-center space-x-3">
@@ -103,9 +104,6 @@ const Header = ({ user, onLogout }) => {
               <p className="text-xs font-medium text-gray-500 mb-1">Gmail</p>
               <p className="text-sm text-gray-900 break-all">{userEmail}</p>
             </div>
-
-            {/* Divider */}
-            <div className="border-t border-gray-200"></div>
 
             {/* Logout Button */}
             <button

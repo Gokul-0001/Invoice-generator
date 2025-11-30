@@ -18,13 +18,16 @@ const MinimalTemplate = ({ data }) => {
     return `${data.currencySymbol || '$'}${amount.toFixed(2)}`;
   };
 
+  // Show stamp only when paid indicator is 'stamp'
+  const shouldShowStamp = data.isPaid && data.paidIndicator === 'stamp';
+
   return (
     <div 
       id="invoice-template" 
       className="bg-white p-12 max-w-4xl mx-auto shadow-lg print:shadow-none print:p-0 relative overflow-visible"
     >
-      {/* Paid Stamp */}
-      {data.isPaid && <PaidStamp paidDate={data.paidDate} template="minimal" />}
+      {/* Paid Stamp - Only for stamp indicator */}
+      {shouldShowStamp && <PaidStamp paidDate={data.paidDate} template="minimal" />}
 
       {/* Company Logo */}
       {data.companyLogo && (
@@ -68,8 +71,12 @@ const MinimalTemplate = ({ data }) => {
       {/* Dates */}
       <div className="grid grid-cols-2 gap-4 mb-12">
         <div>
-          <p className="text-xs text-gray-500 uppercase">Issue Date</p>
-          <p className="text-sm font-medium">{data.invoiceDate}</p>
+          <p className="text-xs text-gray-500 uppercase">
+            {data.isPaid && data.paidIndicator === 'text' ? 'Paid Date' : 'Invoice Date'}
+          </p>
+          <p className="text-sm font-medium">
+            {data.isPaid && data.paidIndicator === 'text' ? data.paidDate : data.invoiceDate}
+          </p>
         </div>
         {!data.isPaid && data.dueDate && (
           <div>
@@ -115,9 +122,18 @@ const MinimalTemplate = ({ data }) => {
             <span className="text-gray-900">{formatCurrency(calculateTax())}</span>
           </div>
           <div className="flex justify-between py-4 text-lg">
-            <span className="font-medium text-gray-900">Total</span>
+            <span className="font-medium text-gray-900">
+              {data.isPaid ? 'Total' : 'Total Due'}
+            </span>
             <span className="font-bold text-gray-900">{formatCurrency(calculateTotal())}</span>
           </div>
+          {/* Paid Amount - shown for all paid invoices */}
+          {data.isPaid && (
+            <div className="flex justify-between py-3 px-4 bg-green-50 mt-2 border border-green-200 text-sm rounded">
+              <span className="font-semibold text-green-900">Paid Amount</span>
+              <span className="font-bold text-green-900">{formatCurrency(calculateTotal())}</span>
+            </div>
+          )}
         </div>
       </div>
 

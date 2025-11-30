@@ -18,14 +18,17 @@ const ModernTemplate = ({ data }) => {
     return `${data.currencySymbol || '$'}${amount.toFixed(2)}`;
   };
 
+  // Show stamp only when paid indicator is 'stamp'
+  const shouldShowStamp = data.isPaid && data.paidIndicator === 'stamp';
+
   return (
     <div 
       id="invoice-template" 
       className="bg-white p-8 max-w-4xl mx-auto shadow-lg print:shadow-none print:p-0 relative overflow-visible"
     >
       
-      {/* Paid Stamp */}
-      {data.isPaid && <PaidStamp paidDate={data.paidDate} template="modern" />}
+      {/* Paid Stamp - Only for stamp indicator */}
+      {shouldShowStamp && <PaidStamp paidDate={data.paidDate} template="modern" />}
 
       <div className="px-12 py-8">
         {/* Company Logo at Top */}
@@ -46,10 +49,16 @@ const ModernTemplate = ({ data }) => {
             <p className="text-xl text-gray-600">#{data.invoiceNumber}</p>
           </div>
           <div className="text-right">
-            <p className="text-sm text-gray-600 mb-1">Issue Date: {data.invoiceDate}</p>
-            {!data.isPaid && data.dueDate && (
-              <p className="text-sm text-gray-600">Due Date: {data.dueDate}</p>
-            )}
+            {data.isPaid && data.paidIndicator === 'text' ? (
+              <p className="text-sm text-gray-600 mb-1">Paid Date: {data.paidDate}</p>
+            ) : !data.isPaid ? (
+              <>
+                <p className="text-sm text-gray-600 mb-1">Invoice Date: {data.invoiceDate}</p>
+                {data.dueDate && (
+                  <p className="text-sm text-gray-600">Due Date: {data.dueDate}</p>
+                )}
+              </>
+            ) : null}
           </div>
         </div>
 
@@ -113,9 +122,18 @@ const ModernTemplate = ({ data }) => {
               <span className="font-semibold">{formatCurrency(calculateTax())}</span>
             </div>
             <div className="flex justify-between py-4 px-4 bg-blue-600 text-white rounded">
-              <span className="text-lg font-bold">Total</span>
+              <span className="text-lg font-bold">
+                {data.isPaid ? 'Total' : 'Total Due'}
+              </span>
               <span className="text-lg font-bold">{formatCurrency(calculateTotal())}</span>
             </div>
+            {/* Paid Amount - shown for all paid invoices */}
+            {data.isPaid && (
+              <div className="flex justify-between py-3 px-4 bg-green-50 mt-2 rounded border border-green-200">
+                <span className="font-semibold text-green-900">Paid Amount</span>
+                <span className="font-bold text-green-900">{formatCurrency(calculateTotal())}</span>
+              </div>
+            )}
           </div>
         </div>
 
